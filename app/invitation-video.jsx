@@ -10,6 +10,7 @@ export default function InvitationVideo() {
     const video = videoRef.current;
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onChange = () => { if (preference.matches) video.pause(); };
+    video.muted = false;
     if (!preference.matches) video.play().catch(() => { if (!video.error) setShowPlay(true); });
     else setShowPlay(true);
     if (video.error) setUnavailable(true);
@@ -35,7 +36,7 @@ export default function InvitationVideo() {
     try { await video.play(); } catch { if (video.error) setUnavailable(true); }
   }
   return <div className="video-frame">
-    <video ref={videoRef} id="invitation-video" controls muted playsInline preload="metadata" hidden={unavailable}
+    <video ref={videoRef} id="invitation-video" controls playsInline preload="metadata" hidden={unavailable}
       aria-label="Vídeo do convite de aniversário" onError={() => setUnavailable(true)}
       onPlaying={() => setShowPlay(false)}
       onLoadedData={() => { setUnavailable(false); setShowSound(videoRef.current.muted); }}
