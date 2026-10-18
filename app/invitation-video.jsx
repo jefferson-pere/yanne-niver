@@ -35,7 +35,7 @@ export default function InvitationVideo() {
     video.muted = false;
     try { await video.play(); } catch { if (video.error) setUnavailable(true); }
   }
-  return <div className="video-frame">
+  return <div className={`video-frame${showPlay && !unavailable ? ' awaiting-play' : ''}`}>
     <video ref={videoRef} id="invitation-video" controls playsInline preload="metadata" hidden={unavailable}
       aria-label="Vídeo do convite de aniversário" onError={() => setUnavailable(true)}
       onPlaying={() => setShowPlay(false)}
@@ -48,7 +48,12 @@ export default function InvitationVideo() {
       <p role="status">O vídeo está indisponível no momento. Você pode tentar novamente.</p>
       <button className="player-button" type="button" onClick={retry}>Tentar novamente</button>
     </div>}
-    {!unavailable && showPlay && <button className="player-button play" type="button" onClick={playVideo}>Reproduzir convite</button>}
+    {!unavailable && showPlay && <button className="player-button play" type="button" onClick={playVideo}>
+      <span className="play-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5a1 1 0 0 1 1.5-.86l10 6a1 1 0 0 1 0 1.72l-10 6A1 1 0 0 1 8 17.5z" /></svg>
+      </span>
+      <span className="play-label">Reproduzir convite<span className="play-hint">Toque para assistir com som</span></span>
+    </button>}
     {!unavailable && !showPlay && showSound && <button className="player-button sound" type="button" onClick={enableSound}>Ativar som</button>}
   </div>;
 }
