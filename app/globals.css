@@ -8,7 +8,16 @@
 html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
 main, .video-frame { width: 100%; height: 100vh; height: 100dvh; }
 .video-frame { position: relative; overflow: hidden; background: #000; }
-.video-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.video-frame video { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* Preserve the complete invitation in the browser's native fullscreen player. */
+.video-frame video:fullscreen,
+.video-frame video:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  object-fit: contain;
+  background: #000;
+}
 .video-frame.awaiting-play video { filter: blur(6px) brightness(0.65); }
 [hidden] { display: none !important; }
 .player-button {
